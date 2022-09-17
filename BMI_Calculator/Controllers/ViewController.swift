@@ -39,10 +39,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func calcButtonTapped(_ sender: UIButton) {
-        guard let w = weightTextField.text,
-              let h = heigthTextField.text else {return}
         
-        bmiManager.calculateBMI(height: h, weight: w)
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -60,9 +57,10 @@ class ViewController: UIViewController {
         if segue.identifier == "toResultVC" {
             let resultVC = segue.destination as! ResultViewController
             
-            resultVC.bmi = bmiManager.getBMIResult()
-            resultVC.bmiColor = bmiManager.getBackgroundColor()
-            resultVC.adviceString = bmiManager.getBMIAdviceString()
+            guard let w = weightTextField.text,
+                  let h = heigthTextField.text else {return}
+            
+            resultVC.bmi = bmiManager.getBMI(height: h, weight: w)
         }
         
         heigthTextField.text = ""
